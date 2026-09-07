@@ -1,0 +1,53 @@
+# Autofilled by tools/new_project_layout/probe_disc.py from your legal dump.
+# Review before shipping. Runtime quirks / overlay seeds still need hand work.
+
+[game]
+name = "JerseyDevil"
+id = "SCUS-94907"
+players = 1
+exe = "disc/SCUS_949.07"
+disc = "F:\\Projects\\psxrecomp\\_jd_iso_hold\\iso\\Jersey Devil (USA).cue"
+load_address = "0x800B0000"
+entry_pc = "0x800B1C5C"
+text_size = "0x00048000"
+stack_base = "0x801FFFF0"
+
+# Digests are for data Track 01 (first BINARY FILE / TRACK 01).
+[prepare_disc]
+out_dir = "disc"
+bin_name = "Jersey Devil (USA) (Track 01).bin"
+cue_name = "Jersey Devil (USA).cue"
+boot_exe = "SCUS_949.07"
+known_sizes = [186577104]
+known_md5 = [
+  "02efbe3e74afb4dd86e510e15f540987",
+]
+known_sha1 = [
+  "8ba20acc230b5308b92ae34be4c5e833b959d363",
+]
+known_crc32 = [
+  "38698d91",
+]
+
+[recompiler]
+seeds = "seeds/ghidra_funcs.txt"
+out_dir = "generated"
+strict = true
+
+[runtime]
+window_title = "JerseyDevil Recompiled"
+memcard_dir = "saves"
+
+[video]
+renderer = "opengl"
+aspect_ratio = "4:3"
+
+[controller]
+default_mode = "digital"
+
+# Online mount gate: digests + track count + optional TOC fingerprint
+# (see docs/NETPLAY.md).
+[netplay]
+require_cue = true
+required_tracks = 45
+required_disc_fp = "3069f8485e6a6a2dd8fe5ac863fad1758857c72f978febfdf6df0c32303903e4"
