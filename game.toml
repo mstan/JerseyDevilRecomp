@@ -6,7 +6,7 @@ name = "JerseyDevil"
 id = "SCUS-94907"
 players = 1
 exe = "disc/SCUS_949.07"
-disc = "F:\\Projects\\psxrecomp\\_jd_iso_hold\\iso\\Jersey Devil (USA).cue"
+disc = "iso/Jersey Devil (USA).cue"
 load_address = "0x800B0000"
 entry_pc = "0x800B1C5C"
 text_size = "0x00048000"
@@ -47,6 +47,7 @@ default_mode = "digital"
 
 # Online mount gate: digests + track count + optional TOC fingerprint
 # (see docs/NETPLAY.md).
+multitap_analog = true
 [netplay]
 require_cue = true
 required_tracks = 45
