@@ -1,0 +1,46 @@
+format_version = 5
+id = "jerseydevil.enhancement.widescreen"
+version = "1.0.0"
+name = "Jersey Devil Widescreen"
+author = "mstan"
+description = "Adds a default-disabled launcher selector for Jersey Devil's widescreen aspect. Adaptive follows live resize from 4:3 through the runtime-supported 32:9 limit."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SCUS-94907"
+exe_sha256 = "7e2bbb9d948a245bec5ce937b125c4e69ceb079e0332b220301accae768a16c9"
+
+[[feature]]
+id = "widescreen"
+name = "Widescreen"
+description = "Choose a fixed or resize-driven widescreen aspect for the runtime's Jersey Devil widescreen mode."
+group = "Display"
+default_enabled = false
+
+[[option]]
+feature = "widescreen"
+id = "aspect"
+label = "Aspect ratio"
+description = "Adaptive follows the live window size from 4:3 through 32:9, the current runtime maximum."
+group = "Display"
+type = "choice"
+default = "adaptive"
+
+[[option.choice]]
+value = "16:9"
+label = "16:9"
+
+[[option.choice]]
+value = "adaptive"
+label = "Adaptive"
+
+[[plugin]]
+feature = "widescreen"
+id = "jerseydevil.widescreen.16-9"
+when = { aspect = "16:9" }
+
+[[plugin]]
+feature = "widescreen"
+id = "jerseydevil.widescreen.adaptive"
+when = { aspect = "adaptive" }

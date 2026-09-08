@@ -33,6 +33,7 @@ known_crc32 = [
 seeds = "seeds/ghidra_funcs.txt"
 out_dir = "generated"
 strict = true
+mod_function_entry_funcs = ["0x80045770", "0x80045240"]
 
 [runtime]
 window_title = "JerseyDevil Recompiled"
@@ -44,10 +45,82 @@ aspect_ratio = "4:3"
 
 [controller]
 default_mode = "digital"
+multitap_analog = true
+
+[widescreen]
+# The default-disabled Widescreen mod owns aspect selection.
+offer = false
+offer_ultrawide = false
+adaptive_view = true
+gte_game_mode = true
+native_wide = true
+precise_nclip = true
+auto_ui_squash = false
+hud_sprt_squash = false
+nw_hud_corners = false
+clear_reveal = true
+
+# Live low-memory rendering image, not part of MAIN/PLAYER's PS-X EXE payload.
+# Exact instruction guards keep unrelated occupants at these addresses intact.
+[[widescreen.signed_x_bound]]
+address = "0x8001032C"
+expected = "0x2402FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x8001033C"
+expected = "0x34020100"
+
+[[widescreen.signed_x_bound]]
+address = "0x80011BD0"
+expected = "0x2406FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x80011C24"
+expected = "0x2409FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x80011C34"
+expected = "0x340A0100"
+
+[[widescreen.signed_x_bound]]
+address = "0x800BD290"
+expected = "0x2402FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x800BD298"
+expected = "0x24020100"
+
+[[widescreen.signed_x_bound]]
+address = "0x80032340"
+expected = "0x2402FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x80032348"
+expected = "0x24020100"
+
+[[widescreen.signed_x_bound]]
+address = "0x80032198"
+expected = "0x2402FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x800321A0"
+expected = "0x24020100"
+
+[widescreen.cull]
+# The static scanner finds no paired X/Y funnels in this executable.
+auto_screen_x = true
+screen_w_imms = ["0x200", "0x280"]
+screen_h_imms = ["0xF0", "0x1E0"]
+guard_pixels = 8
+
+# Projected object bounds in the render-list builder (centered 512px view).
+slti_sites = ["0x800B7BD8", "0x8002CB98", "0x8002C9F0"]
+slti_lower_sites = ["0x800B7BF0", "0x8002CBB0", "0x8002CA08"]
+
+# 0x800BB05C bounds a 512-entry ordering table, not screen X. Keep it stock.
 
 # Online mount gate: digests + track count + optional TOC fingerprint
 # (see docs/NETPLAY.md).
-multitap_analog = true
 [netplay]
 require_cue = true
 required_tracks = 45

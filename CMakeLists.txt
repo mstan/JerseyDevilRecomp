@@ -10,6 +10,7 @@ if(NOT EXISTS "${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 endif()
 
 project(JerseyDevilRecomp LANGUAGES C CXX)
+include(CTest)
 
 # --- Opt-in product surfaces (OFF by default in the framework) -------------
 # Scaffold prompts / flags fill these. Without recomp-ui, PSX_RECOMP_UI is OFF.
@@ -33,10 +34,21 @@ psxrecomp_add_game_runtime(psx-runtime
     MAX_PLAYERS 1
     LAUNCHER_BOXART "${CMAKE_CURRENT_SOURCE_DIR}/launcher_assets/img/boxart.tga"
     APP_ICON "${CMAKE_CURRENT_SOURCE_DIR}/assets/psxrecomp.ico"
+    PRELOADED_MODS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/mods/preloaded"
+    GAME_OVERLAY_STATIC_C "${CMAKE_CURRENT_SOURCE_DIR}/generated/overlays_static.c"
     GEN_MARKER "generated/SCUS_949.07_dispatch.c"
     GEN_FULL_GLOB "generated/SCUS_949.07_full_*.c"
     CODEGEN_SETUP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/codegen_setup.c"
 )
+target_sources(psx-runtime PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/jersey_widescreen_plugin.c")
+
+if(BUILD_TESTING)
+    add_executable(jersey_widescreen_test tests/test_jersey_widescreen.c)
+    target_include_directories(jersey_widescreen_test PRIVATE
+        "${PSXRECOMP_ROOT}/runtime/include")
+    add_test(NAME jersey_widescreen_test COMMAND jersey_widescreen_test)
+endif()
 
 # Stage runtime configs next to the exe for direct build/ launches. Only copy
 # files that exist — never fail POST_BUILD when game_options.toml is absent.
