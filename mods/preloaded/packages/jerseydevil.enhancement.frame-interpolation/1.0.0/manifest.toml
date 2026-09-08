@@ -1,0 +1,79 @@
+format_version = 5
+id = "jerseydevil.enhancement.frame-interpolation"
+version = "1.0.0"
+name = "Jersey Devil Frame Interpolation"
+author = "mstan"
+description = "Presentation-only temporal frame blending. Game logic and audio retain their stock cadence."
+resolver = "declarative"
+save_compatibility = "shared"
+
+[[target]]
+game_id = "SCUS-94907"
+exe_sha256 = "7e2bbb9d948a245bec5ce937b125c4e69ceb079e0332b220301accae768a16c9"
+
+[[feature]]
+id = "frame-interpolation"
+name = "Frame Interpolation"
+description = "Blend completed display images without accelerating gameplay. This is not motion-vector frame generation."
+group = "Frame Rate"
+default_enabled = false
+
+[[option]]
+feature = "frame-interpolation"
+id = "rate"
+label = "Presentation rate"
+description = "Display refresh follows the monitor. Motion-adaptive clarity reduces double-image trails. Requires OpenGL."
+group = "Frame Rate"
+type = "choice"
+default = "display"
+
+[[option.choice]]
+value = "display"
+label = "Display refresh (Recommended)"
+[[option.choice]]
+value = "60"
+label = "60 FPS"
+[[option.choice]]
+value = "90"
+label = "90 FPS"
+[[option.choice]]
+value = "120"
+label = "120 FPS"
+[[option.choice]]
+value = "144"
+label = "144 FPS"
+[[option.choice]]
+value = "165"
+label = "165 FPS"
+[[option.choice]]
+value = "240"
+label = "240 FPS"
+
+[[plugin]]
+feature = "frame-interpolation"
+id = "jerseydevil.framerate.display"
+when = { rate = "display" }
+[[plugin]]
+feature = "frame-interpolation"
+id = "jerseydevil.framerate.60"
+when = { rate = "60" }
+[[plugin]]
+feature = "frame-interpolation"
+id = "jerseydevil.framerate.90"
+when = { rate = "90" }
+[[plugin]]
+feature = "frame-interpolation"
+id = "jerseydevil.framerate.120"
+when = { rate = "120" }
+[[plugin]]
+feature = "frame-interpolation"
+id = "jerseydevil.framerate.144"
+when = { rate = "144" }
+[[plugin]]
+feature = "frame-interpolation"
+id = "jerseydevil.framerate.165"
+when = { rate = "165" }
+[[plugin]]
+feature = "frame-interpolation"
+id = "jerseydevil.framerate.240"
+when = { rate = "240" }
