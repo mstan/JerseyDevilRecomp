@@ -138,6 +138,8 @@ Game details: USA release, serial **SCUS-94907**, boot executable
 
 ## License
 
+PolyForm Noncommercial 1.0.0. See `LICENSE`.
+
 No game data is stored in this repository. No disc files, no PlayStation BIOS,
 and no translated game code — all of that is made on your own PC from your own
 disc, and Git is set to ignore it.
