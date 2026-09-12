@@ -36,6 +36,7 @@ strict = true
 mod_function_entry_funcs = ["0x80045770", "0x80045240"]
 
 [runtime]
+overlay_cache = true
 window_title = "JerseyDevil Recompiled"
 memcard_dir = "saves"
 

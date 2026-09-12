@@ -1,4 +1,7 @@
-# v0.2.0
+# v0.2.1
+
+The packaged runtime enables its native overlay cache. The shared release
+pipeline now rejects configurations that would leave shipped modules unused.
 
 Secondary executables and compressed renderer banks now ship with native AOT
 coverage prepared directly from the original USA disc. This includes all five
