@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Jersey Devil Recompiled
+Comment=Static recompilation of Jersey Devil
+Exec=JerseyDevil_Recompiled
+Icon=io.github.mstan.JerseyDevilRecomp
+Categories=Game;
+Terminal=false

@@ -13,7 +13,10 @@
 # Release packaging
 /release-stage/
 /dist/
+/release-linux/
+/tools/_toolchain_cache/
 *.zip
+*.AppImage
 
 # Local PlayStation assets (never commit dumps / BIOS)
 /bios/

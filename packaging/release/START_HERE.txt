@@ -1,0 +1,9 @@
+Jersey Devil Recompiled v0.2.0
+
+Open the launcher and select your legally owned Jersey Devil USA disc (SCUS-94907).
+This release includes native code for the five secondary executables and all
+five renderer-bank variants identified in the original disc archives. Fallback
+remains available for unresolved execution paths. See docs/AOT_OVERLAYS.md.
+
+OpenBIOS and its MIT notice are included. Retail game and BIOS files are not.
+Optional widescreen and frame interpolation are available through Mods.

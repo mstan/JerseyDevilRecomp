@@ -162,3 +162,5 @@ owners. This project is not affiliated with them.
   <a href="https://discord.gg/Ad9BwSzctP"><img src=".github/raid-discord.png" alt="Join the Retro AI Development (R.A.I.D.) Discord" width="200"></a>
 </p>
 <!-- /retcomm-readme-raid -->
+
+Original-disc overlay preparation and release requirements are documented in [AOT overlays](docs/AOT_OVERLAYS.md).

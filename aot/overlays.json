@@ -1,0 +1,1795 @@
+{
+  "schema": "psxrecomp AOT methods v1",
+  "game_id": "SCUS-94907",
+  "disc_hashes": {
+    "sha1": "8ba20acc230b5308b92ae34be4c5e833b959d363"
+  },
+  "bios_resident": true,
+  "strict_bounds": true,
+  "expected_records": 11,
+  "images": [
+    {
+      "method": "psx_exe",
+      "files": [
+        "MAIN.EXE"
+      ],
+      "entry_word": {
+        "file": "MAIN.EXE",
+        "address": "0x10"
+      }
+    },
+    {
+      "method": "psx_exe",
+      "files": [
+        "PLAYER.EXE"
+      ],
+      "entry_word": {
+        "file": "PLAYER.EXE",
+        "address": "0x10"
+      }
+    },
+    {
+      "method": "psx_exe",
+      "files": [
+        "OPTIONS.EXE"
+      ],
+      "entry_word": {
+        "file": "OPTIONS.EXE",
+        "address": "0x10"
+      }
+    },
+    {
+      "method": "psx_exe",
+      "files": [
+        "SAVE.EXE"
+      ],
+      "entry_word": {
+        "file": "SAVE.EXE",
+        "address": "0x10"
+      },
+      "excluded_ranges": [
+        {
+          "start": "0x800c5e14",
+          "end": "0x800c5e78",
+          "sha256": "2afa083adf46d2823e945dd9267ccdf5571203b7a883baf7f8243d5295cee18a",
+          "reason": "Arithmetic helper contains original unsupported SPECIAL word 0x00001770 at 0x800c5e60. Keep this function on fallback; do not suppress the native instruction audit."
+        }
+      ]
+    },
+    {
+      "method": "psx_exe",
+      "files": [
+        "CREDITS.EXE"
+      ],
+      "entry_word": {
+        "file": "CREDITS.EXE",
+        "address": "0x10"
+      }
+    },
+    {
+      "method": "aligned_lzss_banks",
+      "containers": [
+        {
+          "file": "DEMO/DEMO1.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "DEMO/DEMO2.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "DEMO/DEMO3.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "DEMO/DEMO4.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "DEMO/DEMO5.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL0/CREDITS.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80178000",
+              "decoded_sha256": "687defce190617128dc1d9031e04e4864044b1dd653414c9f4a4090780d5e903",
+              "entries": [
+                "0x80178008",
+                "0x80178018"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL0/EXTRO.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL0/GAMEOVER.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LEVEL0/INTRO.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL0/KNARF01.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL0/KNARF02.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL0/KNARF03.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL0/KNARF04.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "7b889a8d7ae0d0a8cd668c99bbd4e649ed548ce9a2b754d28abb3fddec2c2580",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL0/LEVEL0.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL0/OPTIONS.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LEVEL0/SAVE.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LEVEL0/STATUS.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL0/TITLE.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LEVEL1/LEVEL1A1.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL1/LEVEL1A2.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL1/LEVEL1A3.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL1/LEVEL1B.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL1/LEVEL1C.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL1/LEVEL1D.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL1/LEVEL1E.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL1/LEVEL1G.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL2/LEVEL2A.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL2/LEVEL2B0.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL2/LEVEL2B1.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL2/LEVEL2B2.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL2/LEVEL2D.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL2/LEVEL2E1.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL2/LEVEL2E2.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL2/LEVEL2G.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL3/LEVEL3A0.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL3/LEVEL3A1.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL3/LEVEL3B1.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL3/LEVEL3B2.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL3/LEVEL3B3.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL3/LEVEL3B4.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL3/LEVEL3B5.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL3/LEVEL3B6.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL3/LEVEL3C.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL3/LEVEL3D.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL3/LEVEL3E.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "0dc7f57c20cbe36181317e445fcc23e241b226ea37f982648f7bed8f793ba35e",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL3/LEVEL3F.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL4/LEVEL4A1.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL4/LEVEL4A2.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL4/LEVEL4A3.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL4/LEVEL4B1.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL4/LEVEL4B2.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL4/LEVEL4C.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL4/LEVEL4D.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL4/LEVEL4E.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL4/LEVEL4F.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL4/LEVEL4G.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL5/LEVEL5A1.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL5/LEVEL5A2.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "0dc7f57c20cbe36181317e445fcc23e241b226ea37f982648f7bed8f793ba35e",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL5/LEVEL5A3.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL5/LEVEL5B1.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL5/LEVEL5B2.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL5/LEVEL5C1.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL5/LEVEL5C2.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL5/LEVEL5D.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL5/LEVEL5E1.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL5/LEVEL5E2.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL5/LEVEL5F.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL7/LEVEL7A.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL7/LEVEL7B.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL7/LEVEL7C.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "9832d39622174e9d861fd45d2e2541f3ac516cbe5c7eaa8b1f85210d1b9c2c5a",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL7/LEVEL7D.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL7/LEVEL7E.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL7/LEVEL7F.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LEVEL7/LEVEL7G.BZZ",
+          "member_count": 4,
+          "bank_indices": [
+            0
+          ],
+          "placements": {
+            "0": {
+              "load_addr": "0x80010200",
+              "decoded_sha256": "cc33623c8f939a0dfd7210dd58c43ae82d0bb04d2ae78ce8b2a232bee3052d32",
+              "entries": [
+                "0x80010208",
+                "0x80010218"
+              ]
+            }
+          }
+        },
+        {
+          "file": "LOADING/LOAD0.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD1.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD1_1.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD1_2.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD2.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD2_1.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD2_2.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD3.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD3_1.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD3_2.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD4.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD4_1.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD4_2.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD5.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD5_1.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD5_2.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD7.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOAD7_1.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        },
+        {
+          "file": "LOADING/LOADB.BZZ",
+          "member_count": 3,
+          "bank_indices": [],
+          "placements": {}
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "method": "words",
+      "file": "MAIN.EXE",
+      "values": {
+        "0x10": "0x800137a8",
+        "0x18": "0x80012200",
+        "0x1c": "0x42000"
+      }
+    },
+    {
+      "method": "words",
+      "file": "PLAYER.EXE",
+      "values": {
+        "0x10": "0x800137a8",
+        "0x18": "0x80012200",
+        "0x1c": "0x41800"
+      }
+    },
+    {
+      "method": "words",
+      "file": "OPTIONS.EXE",
+      "values": {
+        "0x10": "0x800b1778",
+        "0x18": "0x800b0000",
+        "0x1c": "0x2e000"
+      }
+    },
+    {
+      "method": "words",
+      "file": "SAVE.EXE",
+      "values": {
+        "0x10": "0x800b1d64",
+        "0x18": "0x800b0000",
+        "0x1c": "0x3b000"
+      }
+    },
+    {
+      "method": "words",
+      "file": "CREDITS.EXE",
+      "values": {
+        "0x10": "0x8017b83c",
+        "0x18": "0x8017a000",
+        "0x1c": "0x34000"
+      }
+    },
+    {
+      "method": "words",
+      "file": "SCUS_949.07",
+      "file_offset": "0x800",
+      "base": "0x800b0000",
+      "values": {
+        "0x800b2dd4": "0x27b00810",
+        "0x800b2dd8": "0x27b10010",
+        "0x800b2ddc": "0x2002021",
+        "0x800b2de0": "0xc032ff1",
+        "0x800b2de4": "0x2602821",
+        "0x800b2de8": "0x1040fffd",
+        "0x800b2dec": "0x2002021",
+        "0x800b2df0": "0x24040002",
+        "0x800b2df4": "0x2002821",
+        "0x800b2df8": "0xc0328a0",
+        "0x800b2dfc": "0x3021",
+        "0x800b2e00": "0x24040800",
+        "0x800b2e04": "0x27a50010",
+        "0x800b2e08": "0xc02cb42",
+        "0x800b2e0c": "0x2403021",
+        "0x800b2e10": "0x1440fff3",
+        "0x800b2e14": "0x2002021",
+        "0x800b2e18": "0xc0329f9",
+        "0x800b2e1c": "0x2002021",
+        "0x800b2e20": "0x24440001",
+        "0x800b2e24": "0xc0329b8",
+        "0x800b2e28": "0x2002821",
+        "0x800b2e2c": "0x24040002",
+        "0x800b2e30": "0x2002821",
+        "0x800b2e34": "0xc03293c",
+        "0x800b2e38": "0x3021",
+        "0x800b2e3c": "0x8e24001c",
+        "0x800b2e40": "0x8e250018",
+        "0x800b2e44": "0xc02cb42",
+        "0x800b2e48": "0x2403021",
+        "0x800b2e4c": "0x1440ffe4",
+        "0x800b2eec": "0x27a40020",
+        "0x800b2ef0": "0x24050001",
+        "0x800b2ef4": "0xc034c5a",
+        "0x800b2ef8": "0x3021",
+        "0x800c5174": "0x90830000",
+        "0x800c5178": "0x34020013",
+        "0x800c517c": "0xa4c20034",
+        "0x800c5180": "0x3402007f",
+        "0x800c5184": "0x30690007",
+        "0x800c5188": "0x1225007",
+        "0x800c518c": "0x1404021",
+        "0x800c5190": "0xa4c30036",
+        "0x800c5194": "0x3108ffff",
+        "0x800c5198": "0x2d02001f",
+        "0x800c519c": "0x10400003",
+        "0x800c51a0": "0x24840001",
+        "0x800c51a4": "0x85042",
+        "0x800c51a8": "0xa4ca0034",
+        "0x800c51ac": "0x34020007",
+        "0x800c51b0": "0x49b023",
+        "0x800c51b4": "0x94c20036",
+        "0x800c51b8": "0x6821",
+        "0x800c51bc": "0x24cb0038",
+        "0x800c51c0": "0x210c2",
+        "0x800c51c4": "0x304a0003",
+        "0x800c51c8": "0x94c30034",
+        "0x800c51cc": "0x1a07821",
+        "0x800c51d0": "0x31e2ffff",
+        "0x800c51d4": "0x62102b",
+        "0x800c51d8": "0x10400005",
+        "0x800c51dc": "0x0",
+        "0x800c51e0": "0x1e37823",
+        "0x800c51e4": "0x31e2ffff",
+        "0x800c51e8": "0x1421004",
+        "0x800c51ec": "0x627821",
+        "0x800c51f0": "0x25ef0002",
+        "0x800c51f4": "0xa56f0000",
+        "0x800c51f8": "0x256b0002",
+        "0x800c51fc": "0x25ad0001",
+        "0x800c5200": "0x1001021",
+        "0x800c5204": "0x1440fff1",
+        "0x800c5208": "0x2508ffff",
+        "0x800c520c": "0x90820000",
+        "0x800c5210": "0x24840001",
+        "0x800c5214": "0x21400",
+        "0x800c5218": "0x90830000",
+        "0x800c521c": "0x24840001",
+        "0x800c5220": "0x31a00",
+        "0x800c5224": "0x431025",
+        "0x800c5228": "0x90830000",
+        "0x800c522c": "0x24840001",
+        "0x800c5230": "0x624025",
+        "0x800c5234": "0x3402007f",
+        "0x800c5238": "0x1229007",
+        "0x800c523c": "0x32d6ffff",
+        "0x800c5240": "0x24d30038",
+        "0x800c5244": "0x258cfffc",
+        "0x800c5248": "0x90970000",
+        "0x800c524c": "0x24840001",
+        "0x800c5250": "0x36f70100",
+        "0x800c5254": "0x15800003",
+        "0x800c5258": "0x258cffff",
+        "0x800c525c": "0xc0314c5",
+        "0x800c5260": "0x0",
+        "0x800c5264": "0x32e30001",
+        "0x800c5268": "0x17b842",
+        "0x800c526c": "0x12e0fff6",
+        "0x800c5270": "0x90940000",
+        "0x800c5274": "0x1460001d",
+        "0x800c5278": "0x24840001",
+        "0x800c527c": "0x15800003",
+        "0x800c5280": "0x258cffff",
+        "0x800c5284": "0xc0314c5",
+        "0x800c5288": "0x0",
+        "0x800c528c": "0x90830000",
+        "0x800c5290": "0x24840001",
+        "0x800c5294": "0x14a200",
+        "0x800c5298": "0x283a021",
+        "0x800c529c": "0x2d41807",
+        "0x800c52a0": "0x2a36823",
+        "0x800c52a4": "0x292a024",
+        "0x800c52a8": "0x14a040",
+        "0x800c52ac": "0x293a021",
+        "0x800c52b0": "0x96890000",
+        "0x800c52b4": "0x91a30000",
+        "0x800c52b8": "0x25ad0001",
+        "0x800c52bc": "0xa2a30000",
+        "0x800c52c0": "0x26b50001",
+        "0x800c52c4": "0x1520fffb",
+        "0x800c52c8": "0x2529ffff",
+        "0x800c52cc": "0x15800003",
+        "0x800c52d0": "0x258cffff",
+        "0x800c52d4": "0xc0314c5",
+        "0x800c52d8": "0x0",
+        "0x800c52dc": "0x1500ffe1",
+        "0x800c52e0": "0x2508ffff",
+        "0x800c52e4": "0x80314eb",
+        "0x800c52e8": "0x2a01021",
+        "0x800c52ec": "0xa2b40000",
+        "0x800c52f0": "0x26b50001",
+        "0x800c52f4": "0x15800003",
+        "0x800c52f8": "0x258cffff",
+        "0x800c52fc": "0xc0314c5",
+        "0x800c5300": "0x0",
+        "0x800c5304": "0x1500ffd7",
+        "0x800c5308": "0x2508ffff",
+        "0x800c530c": "0x80314eb",
+        "0x800c5310": "0x2a01021"
+      }
+    },
+    {
+      "method": "words",
+      "file": "MAIN.EXE",
+      "file_offset": "0x800",
+      "base": "0x80012200",
+      "values": {
+        "0x80012404": "0x80010200",
+        "0x800352d4": "0x8e63a308",
+        "0x800352d8": "0x24020031",
+        "0x800352dc": "0x1062001d",
+        "0x800352e0": "0x3c028001",
+        "0x800352e4": "0x2415004b",
+        "0x800352e8": "0x24532404",
+        "0x800352ec": "0x3c028009",
+        "0x800352f0": "0x24521a50",
+        "0x800352f4": "0x8e220000",
+        "0x800352f8": "0x0",
+        "0x800352fc": "0x1455000f",
+        "0x80035300": "0x26310004",
+        "0x80035304": "0x8fa903fc",
+        "0x80035308": "0x3c061f80",
+        "0x8003530c": "0x25290001",
+        "0x80035310": "0xafa903fc",
+        "0x80035314": "0x8e220000",
+        "0x80035318": "0x8f8401cc",
+        "0x8003531c": "0x21080",
+        "0x80035320": "0x531021",
+        "0x80035324": "0x8c500000",
+        "0x80035328": "0x26310004",
+        "0x8003532c": "0xc00dd91",
+        "0x80035330": "0x2002821",
+        "0x80035334": "0x800d4d1",
+        "0x80035338": "0xae120004",
+        "0x8003533c": "0x800d4cf",
+        "0x80035340": "0x0",
+        "0x80035344": "0x8e230000",
+        "0x80035348": "0x24020031",
+        "0x8003534c": "0x1462ffe9",
+        "0x80035350": "0x0",
+        "0x80035354": "0x26310004",
+        "0x80035358": "0x3c02821",
+        "0x80037694": "0x90830000",
+        "0x80037698": "0x34020013",
+        "0x8003769c": "0xa4c20034",
+        "0x800376a0": "0x3402007f",
+        "0x800376a4": "0x30690007",
+        "0x800376a8": "0x1225007",
+        "0x800376ac": "0x1404021",
+        "0x800376b0": "0xa4c30036",
+        "0x800376b4": "0x3108ffff",
+        "0x800376b8": "0x2d02001f",
+        "0x800376bc": "0x10400003",
+        "0x800376c0": "0x24840001",
+        "0x800376c4": "0x85042",
+        "0x800376c8": "0xa4ca0034",
+        "0x800376cc": "0x34020007",
+        "0x800376d0": "0x49b023",
+        "0x800376d4": "0x94c20036",
+        "0x800376d8": "0x6821",
+        "0x800376dc": "0x24cb0038",
+        "0x800376e0": "0x210c2",
+        "0x800376e4": "0x304a0003",
+        "0x800376e8": "0x94c30034",
+        "0x800376ec": "0x1a07821",
+        "0x800376f0": "0x31e2ffff",
+        "0x800376f4": "0x62102b",
+        "0x800376f8": "0x10400005",
+        "0x800376fc": "0x0",
+        "0x80037700": "0x1e37823",
+        "0x80037704": "0x31e2ffff",
+        "0x80037708": "0x1421004",
+        "0x8003770c": "0x627821",
+        "0x80037710": "0x25ef0002",
+        "0x80037714": "0xa56f0000",
+        "0x80037718": "0x256b0002",
+        "0x8003771c": "0x25ad0001",
+        "0x80037720": "0x1001021",
+        "0x80037724": "0x1440fff1",
+        "0x80037728": "0x2508ffff",
+        "0x8003772c": "0x90820000",
+        "0x80037730": "0x24840001",
+        "0x80037734": "0x21400",
+        "0x80037738": "0x90830000",
+        "0x8003773c": "0x24840001",
+        "0x80037740": "0x31a00",
+        "0x80037744": "0x431025",
+        "0x80037748": "0x90830000",
+        "0x8003774c": "0x24840001",
+        "0x80037750": "0x624025",
+        "0x80037754": "0x3402007f",
+        "0x80037758": "0x1229007",
+        "0x8003775c": "0x32d6ffff",
+        "0x80037760": "0x24d30038",
+        "0x80037764": "0x258cfffc",
+        "0x80037768": "0x90970000",
+        "0x8003776c": "0x24840001",
+        "0x80037770": "0x36f70100",
+        "0x80037774": "0x15800003",
+        "0x80037778": "0x258cffff",
+        "0x8003777c": "0xc00de0d",
+        "0x80037780": "0x0",
+        "0x80037784": "0x32e30001",
+        "0x80037788": "0x17b842",
+        "0x8003778c": "0x12e0fff6",
+        "0x80037790": "0x90940000",
+        "0x80037794": "0x1460001d",
+        "0x80037798": "0x24840001",
+        "0x8003779c": "0x15800003",
+        "0x800377a0": "0x258cffff",
+        "0x800377a4": "0xc00de0d",
+        "0x800377a8": "0x0",
+        "0x800377ac": "0x90830000",
+        "0x800377b0": "0x24840001",
+        "0x800377b4": "0x14a200",
+        "0x800377b8": "0x283a021",
+        "0x800377bc": "0x2d41807",
+        "0x800377c0": "0x2a36823",
+        "0x800377c4": "0x292a024",
+        "0x800377c8": "0x14a040",
+        "0x800377cc": "0x293a021",
+        "0x800377d0": "0x96890000",
+        "0x800377d4": "0x91a30000",
+        "0x800377d8": "0x25ad0001",
+        "0x800377dc": "0xa2a30000",
+        "0x800377e0": "0x26b50001",
+        "0x800377e4": "0x1520fffb",
+        "0x800377e8": "0x2529ffff",
+        "0x800377ec": "0x15800003",
+        "0x800377f0": "0x258cffff",
+        "0x800377f4": "0xc00de0d",
+        "0x800377f8": "0x0",
+        "0x800377fc": "0x1500ffe1",
+        "0x80037800": "0x2508ffff",
+        "0x80037804": "0x800de39",
+        "0x80037808": "0x2a01021",
+        "0x8003780c": "0xa2b40000",
+        "0x80037810": "0x26b50001",
+        "0x80037814": "0x15800003",
+        "0x80037818": "0x258cffff",
+        "0x8003781c": "0xc00de0d",
+        "0x80037820": "0x0",
+        "0x80037824": "0x1500ffd7",
+        "0x80037828": "0x2508ffff",
+        "0x8003782c": "0x800de39",
+        "0x80037830": "0x2a01021",
+        "0x8002f770": "0xc004082",
+        "0x8002fe28": "0xc004086"
+      }
+    },
+    {
+      "method": "words",
+      "file": "PLAYER.EXE",
+      "file_offset": "0x800",
+      "base": "0x80012200",
+      "values": {
+        "0x80012404": "0x80010200"
+      }
+    },
+    {
+      "method": "words",
+      "file": "CREDITS.EXE",
+      "file_offset": "0x800",
+      "base": "0x8017a000",
+      "values": {
+        "0x8017a148": "0x80178000",
+        "0x801864c8": "0x2403004b",
+        "0x801864cc": "0x10430003",
+        "0x801864d0": "0x0",
+        "0x801864d4": "0x806195d",
+        "0x801864d8": "0x0",
+        "0x801864dc": "0x8fc20408",
+        "0x801864e0": "0x0",
+        "0x801864e4": "0xafc20034",
+        "0x801864e8": "0x8fc200a0",
+        "0x801864ec": "0x0",
+        "0x801864f0": "0x24430001",
+        "0x801864f4": "0xafc300a0",
+        "0x801864f8": "0x8fc20034",
+        "0x801864fc": "0x0",
+        "0x80186500": "0x8c430000",
+        "0x80186504": "0x0",
+        "0x80186508": "0x601021",
+        "0x8018650c": "0x21880",
+        "0x80186510": "0x3c048018",
+        "0x80186514": "0x2484a148",
+        "0x80186518": "0x641021",
+        "0x8018651c": "0x8c430000",
+        "0x80186520": "0x0",
+        "0x80186524": "0xafc30418",
+        "0x80186528": "0x3c04801b",
+        "0x8018652c": "0x8c84df48",
+        "0x80186530": "0x8fc50418",
+        "0x80186534": "0x8fc600d8",
+        "0x80186538": "0xc062bd9",
+        "0x8018653c": "0x0",
+        "0x80186540": "0xafc20410"
+      }
+    }
+  ]
+}
