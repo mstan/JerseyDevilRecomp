@@ -41,14 +41,16 @@ psxrecomp_add_game_runtime(psx-runtime
 )
 target_sources(psx-runtime PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/jersey_widescreen_plugin.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/jersey_frame_rate_plugin.c")
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/jersey_frame_rate_plugin.cpp")
 
 if(BUILD_TESTING)
     add_executable(jersey_widescreen_test tests/test_jersey_widescreen.c)
     target_include_directories(jersey_widescreen_test PRIVATE
         "${PSXRECOMP_ROOT}/runtime/include")
     add_test(NAME jersey_widescreen_test COMMAND jersey_widescreen_test)
-    add_executable(jersey_frame_rate_test tests/test_jersey_frame_rate.c)
+    add_executable(jersey_frame_rate_test tests/test_jersey_frame_rate.cpp
+        "${PSXRECOMP_ROOT}/runtime/src/render_pass_projection.cpp"
+        "${PSXRECOMP_ROOT}/runtime/src/render_pass_motion.c")
     target_include_directories(jersey_frame_rate_test PRIVATE
         "${PSXRECOMP_ROOT}/runtime/include")
     add_test(NAME jersey_frame_rate_test COMMAND jersey_frame_rate_test)

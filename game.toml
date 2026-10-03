@@ -33,7 +33,8 @@ known_crc32 = [
 seeds = "seeds/ghidra_funcs.txt"
 out_dir = "generated"
 strict = true
-mod_function_entry_funcs = ["0x80045770", "0x80045240"]
+mod_function_entry_funcs = ["0x80045770", "0x80045240", "0x8003438C", "0x8003FCCC", "0x800341F0", "0x8003F79C"]
+mod_instruction_sites = ["0x8001391C", "0x80013F04", "0x8001454C", "0x80013914", "0x80013E28", "0x8001446C"]
 
 [runtime]
 overlay_cache = true
@@ -81,6 +82,88 @@ expected = "0x2409FF00"
 
 [[widescreen.signed_x_bound]]
 address = "0x80011C34"
+expected = "0x340A0100"
+
+# Full-view clip initialization used when a near face enters subdivision.
+# Without these, its child triangles still inherit the original 4:3 clip box.
+[[widescreen.signed_x_bound]]
+address = "0x80011500"
+expected = "0x2401FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x80011508"
+expected = "0x34050100"
+
+# Equivalent renderer banks from the original BZZ archives. Full instruction
+# guards distinguish relocated constants from unrelated code at the same PCs.
+# cc33623c: normal level renderer; 0dc7f57c: alternate level renderer.
+[[widescreen.signed_x_bound]]
+address = "0x80010328"
+expected = "0x2402FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x80010338"
+expected = "0x34020100"
+
+[[widescreen.signed_x_bound]]
+address = "0x80011420"
+expected = "0x2401FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x80011428"
+expected = "0x34050100"
+
+[[widescreen.signed_x_bound]]
+address = "0x80011AF0"
+expected = "0x2406FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x80011B44"
+expected = "0x2409FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x80011B54"
+expected = "0x340A0100"
+
+[[widescreen.signed_x_bound]]
+address = "0x800114A0"
+expected = "0x2401FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x800114A8"
+expected = "0x34050100"
+
+[[widescreen.signed_x_bound]]
+address = "0x80011BE4"
+expected = "0x2406FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x80011C38"
+expected = "0x2409FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x80011C48"
+expected = "0x340A0100"
+
+# Credits has its own renderer bank (687defce) at 0x80178000.
+[[widescreen.signed_x_bound]]
+address = "0x80178128"
+expected = "0x2402FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x80178138"
+expected = "0x34020100"
+
+[[widescreen.signed_x_bound]]
+address = "0x80179850"
+expected = "0x2406FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x801798A4"
+expected = "0x2409FF00"
+
+[[widescreen.signed_x_bound]]
+address = "0x801798B4"
 expected = "0x340A0100"
 
 [[widescreen.signed_x_bound]]

@@ -3,18 +3,18 @@ id = "jerseydevil.enhancement.frame-interpolation"
 version = "1.0.0"
 name = "Jersey Devil Frame Interpolation"
 author = "mstan"
-description = "Presentation-only temporal frame blending. Game logic and audio retain their stock cadence."
+description = "Intermediate motion rendered with the game's own drawing code. Game logic and audio retain their stock cadence. Requires OpenGL."
 resolver = "declarative"
 save_compatibility = "shared"
 
 [[target]]
 game_id = "SCUS-94907"
-exe_sha256 = "7e2bbb9d948a245bec5ce937b125c4e69ceb079e0332b220301accae768a16c9"
+disc_sha256 = "dc7151141f2c01c039e7b6d5a44c72a7eb829dfcb1b569593f1aecbcd50fdaf4"
 
 [[feature]]
 id = "frame-interpolation"
 name = "Frame Interpolation"
-description = "Blend completed display images without accelerating gameplay. This is not motion-vector frame generation."
+description = "Redraw the scene with interpolated model and camera transforms without accelerating gameplay. New geometry and camera cuts retain their current pose."
 group = "Frame Rate"
 default_enabled = false
 
@@ -22,7 +22,7 @@ default_enabled = false
 feature = "frame-interpolation"
 id = "rate"
 label = "Presentation rate"
-description = "Display refresh follows the monitor. Motion-adaptive clarity reduces double-image trails. Requires OpenGL."
+description = "Display refresh follows the monitor. Extra drawing passes supply intermediate motion when the host has enough rendering time. Requires OpenGL."
 group = "Frame Rate"
 type = "choice"
 default = "display"

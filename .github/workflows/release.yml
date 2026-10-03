@@ -9,16 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Download published Windows and Linux builds
+      - name: Download published builds
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: gh release download "$RELEASE_TAG" --dir artifacts
-      - name: Verify checksums and both platforms
+      - name: Verify checksums and published platforms
         run: |
           cd artifacts
           test "$(find . -name '*windows-x64.zip' | wc -l)" -eq 1
-          test "$(find . -name '*linux-x86_64.AppImage' | wc -l)" -eq 1
+          # Windows-only refreshes are valid. Checksum every attached artifact;
+          # Linux packages, when present, still have exactly one AppImage.
+          test "$(find . -name '*linux-x86_64.AppImage' | wc -l)" -le 1
           sha256sum -c ./*.sha256
           python3 - <<'PY'
           import json, zipfile

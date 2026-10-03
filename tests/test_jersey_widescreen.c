@@ -183,11 +183,12 @@ int psx_mod_register_function_entry_plugin(
     return 1;
 }
 
-void psx_mod_function_entry(CPUState *cpu, uint32_t address) {
+int psx_mod_function_entry(CPUState *cpu, uint32_t address) {
     for (uint32_t i = 0; i < function_reg_count; i++) {
         if (function_regs[i].address == address)
             function_regs[i].callback(cpu, address);
     }
+    return 0;
 }
 
 int psx_mod_game_started(void) {

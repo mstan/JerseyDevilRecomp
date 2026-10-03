@@ -306,9 +306,13 @@ psx_add_mod_catalog --build-path "$build_dir" --stage "$payload" \
 [ -f "$payload/bios/OpenBIOS.LICENSE" ] || { echo "missing OpenBIOS notice" >&2; exit 1; }
 
 mkdir -p "$payload/licenses"
-if [ -f "$fw/runtime/licenses/libchdr-NOTICES.txt" ]; then
-    cp "$fw/runtime/licenses/libchdr-NOTICES.txt" "$payload/licenses/"
-fi
+cp -a "$fw/runtime/licenses/." "$payload/licenses/"
+[ ! -f "$fw/THIRD_PARTY_ATTRIBUTION.md" ] || cp "$fw/THIRD_PARTY_ATTRIBUTION.md" "$payload/licenses/"
+cp "$fw/LICENSE" "$payload/licenses/psxrecomp-LICENSE"
+[ ! -f "$root/recomp-ui/LICENSE" ] || cp "$root/recomp-ui/LICENSE" "$payload/licenses/recomp-ui-LICENSE"
+for doc in VERSION RELEASE_NOTES.md framework_pins.txt BUILD_PROVENANCE.json; do
+    [ ! -f "$root/$doc" ] || cp "$root/$doc" "$payload/"
+done
 
 # Every invocation freshly extracts, builds and audits AOT, even --skip-build.
 # --- prebuilt overlay cache + overlay toolchain ---------------------------
@@ -320,7 +324,7 @@ python3 "$fw/tools/aot_overlay_pipeline.py" release \
     --runtime-config "$player_toml" --runtime-build-dir "$build_dir" \
     --runtime-target psx-runtime --recompiler "$recompiler_bin" \
     --work-dir "$root/build-aot-linux" --stage "$payload" \
-    --gcc "${AOT_GCC:-gcc}" --workers "${AOT_WORKERS:-3}"
+    --gcc "${AOT_GCC:-gcc}" --workers "${AOT_WORKERS:-$jobs}"
 psx_add_overlay_toolchain --stage "$payload" \
                           --recomp-dir "$(dirname -- "$recompiler_bin")" \
                           --recomp-tools "$fw/tools" \

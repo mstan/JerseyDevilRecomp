@@ -1,3 +1,11 @@
+# v0.3.0
+
+Game-code interpolation for higher presentation rates; camera/model motion stays separate from simulation. Widescreen subdivision and renderer-bank culling fixes retain geometry across the wider view.
+
+Enable the frame-rate and widescreen enhancements in Mods. Native game timing remains unchanged. These are playable preview builds; full-game completion is not recertified.
+
+---
+
 # v0.2.1
 
 The packaged runtime enables its native overlay cache. The shared release

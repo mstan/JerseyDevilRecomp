@@ -75,6 +75,12 @@ in the launcher.
 
 ## What works right now?
 
+The Mods page offers widescreen and optional interpolated rendering at display
+refresh, 60, 90, 120, 144, 165, or 240 FPS. Extra frames run the original drawing
+code with intermediate model and camera transforms. Game logic, input, timers,
+and audio retain their original cadence. OpenGL is required; lower internal
+resolution gives extra frames more rendering time.
+
 The game boots, plays its intro, loads levels, and you can run around and play.
 That is as far as testing has gone. Version **0.1.0** is a very early build.
 
@@ -126,6 +132,19 @@ the same two steps for you. Full setup notes are in the
 Game details: USA release, serial **SCUS-94907**, boot executable
 `SCUS_949.07`, 45 disc tracks, single player.
 
+Widescreen guards cover the horizontal clip and subdivision bounds in all
+five renderer bank variants, including Credits. The original vertical bounds
+remain unchanged. With local static overlay captures, check the original
+clip instructions using:
+
+```sh
+python tests/check_renderer_bounds.py --captures generated/static_exe_captures.json
+```
+
+To check other decoded banks, pass their local PS-X EXE wrappers with repeated
+`--image <path>` arguments. The check covers 4:3, 16:9, 21:9 and 32:9; it does
+not replace gameplay checks across every level and camera.
+
 ### What is in this repo
 
 | Folder | What it holds |
@@ -164,3 +183,7 @@ owners. This project is not affiliated with them.
 <!-- /retcomm-readme-raid -->
 
 Original-disc overlay preparation and release requirements are documented in [AOT overlays](docs/AOT_OVERLAYS.md).
+
+## v0.3.0 rendering update
+
+Game-code interpolation for higher presentation rates; camera/model motion stays separate from simulation. Widescreen subdivision and renderer-bank culling fixes retain geometry across the wider view.
