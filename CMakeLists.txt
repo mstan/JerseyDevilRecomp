@@ -26,6 +26,7 @@ set(PSX_SETUP_WIZARD ON CACHE BOOL
 include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 
 psxrecomp_add_game_runtime(psx-runtime
+    EXCLUDE_BUILTIN_MODS psx.enhancement.hd-textures
     # ENABLE_NETPLAY_IF_PRESENT
     # NETPLAY_LOBBY_URL ws://netplay.retcomm.net:8765
     ENABLE_SETUP_WIZARD
@@ -40,6 +41,12 @@ psxrecomp_add_game_runtime(psx-runtime
     GEN_FULL_GLOB "generated/SCUS_949.07_full_*.c"
     CODEGEN_SETUP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/codegen_setup.c"
 )
+
+# Shared default-on playtest recording, input display and replay tooling.
+include("${PSXRECOMP_ROOT}/runtime/playtest_diagnostics.cmake")
+psxrecomp_add_playtest_diagnostics(psx-runtime
+    GAME_ID "SCUS-94907"
+    MOD_ID "jerseydevil.diagnostics")
 target_sources(psx-runtime PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/jersey_widescreen_plugin.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/jersey_frame_rate_plugin.c")
