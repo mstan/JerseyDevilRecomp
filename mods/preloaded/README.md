@@ -1,6 +1,7 @@
 # Preloaded mods
 
-Ship reviewed, default-disabled packages here:
+Ship reviewed packages here. Each manifest declares its defaults; playtest
+diagnostics are enabled by default:
 
 ```text
 packages/<package-id>/<version>/

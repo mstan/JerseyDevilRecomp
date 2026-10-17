@@ -1,3 +1,11 @@
+# v0.3.1
+
+Offline playtest recording and the controller display are enabled by default. Sessions capture accepted inputs, controller presence, RAM checks and host/CD/render timing evidence; the bundled replay helper checks reproduction against the same build. See [the diagnostics guide](docs/PLAYTEST_DIAGNOSTICS.md) for incident marking and private replay.
+
+The framework and launcher are pinned to the qualified rollout revisions. Existing rendering improvements and game timing are retained. These remain preview builds; full-game completion is not recertified.
+
+---
+
 # v0.3.0
 
 Game-code interpolation for higher presentation rates; camera/model motion stays separate from simulation. Widescreen subdivision and renderer-bank culling fixes retain geometry across the wider view.

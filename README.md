@@ -82,7 +82,7 @@ and audio retain their original cadence. OpenGL is required; lower internal
 resolution gives extra frames more rendering time.
 
 The game boots, plays its intro, loads levels, and you can run around and play.
-That is as far as testing has gone. Version **0.1.0** is a very early build.
+That is as far as testing has gone. Version **0.3.1** remains a preview build.
 
 Expect rough edges. If something looks wrong or freezes, that is useful to know —
 please tell us (see below).

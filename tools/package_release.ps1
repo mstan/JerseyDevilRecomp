@@ -9,12 +9,26 @@ param(
     [string]$BuildDir = "build-release",
     [string]$RecompilerBuildDir = "recompiler/build",
     [int]$Jobs = 2,
+    [string]$ToolchainBin = "C:/msys64/mingw64/bin",
+    [string]$Python = "py",
+    [string[]]$CMakeArguments = @(),
     [switch]$SkipRegen
 )
 
 $ErrorActionPreference = "Stop"
 
 $Root = Resolve-Path (Join-Path $PSScriptRoot "..")
+
+
+function Invoke-ReleasePython([string[]]$Arguments) {
+    $pythonArgs = if ([IO.Path]::GetFileNameWithoutExtension($Python) -eq 'py') { @('-3') + $Arguments } else { $Arguments }
+    $savedPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    & $Python @pythonArgs 2>&1 | Out-Host
+    $pythonExit = $LASTEXITCODE
+    $ErrorActionPreference = $savedPreference
+    if ($pythonExit -ne 0) { throw "Release Python command failed: $pythonExit" }
+}
 
 if ([string]::IsNullOrWhiteSpace($Version)) {
     $VersionFile = Join-Path $Root "packaging/release/VERSION"
@@ -31,7 +45,7 @@ $BuildPath = Join-Path $Root $BuildDir
 $StageRoot = Join-Path $Root "release-stage"
 $Stage = Join-Path $StageRoot "JerseyDevilRecomp-windows-x64"
 $ZipPath = Join-Path $Root ("JerseyDevilRecomp-{0}-windows-x64.zip" -f $Version)
-$MingwBin = "C:\msys64\mingw64\bin"
+$MingwBin = $ToolchainBin
 
 $env:PATH = "$MingwBin;$env:PATH"
 $CMake = Join-Path $MingwBin "cmake.exe"
@@ -127,7 +141,7 @@ if (-not $SkipRegen) {
     Invoke-Native { & $RecompBin --config (Join-Path $Root 'game.toml') } 'base game regeneration'
 }
 
-Invoke-Native { & $CMake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_DEBUG_TOOLS=OFF -DPSX_PGXP_VARIANT=OFF -DPSX_SDL_BACKEND=SDL3 "-DPSX_GAME_VERSION=$Version" } "cmake configure"
+Invoke-Native { & $CMake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_DEBUG_TOOLS=OFF -DPSX_PGXP_VARIANT=OFF -DPSX_SDL_BACKEND=SDL3 "-DPSX_GAME_VERSION=$Version" @CMakeArguments } "cmake configure"
 Invoke-Native { & $CMake --build $BuildPath --target psx-runtime -j $Jobs } "cmake build"
 
 if (Test-Path $StageRoot) {
@@ -176,7 +190,8 @@ Copy-Item (Join-Path $Root "docs/AOT_OVERLAYS.md") (Join-Path $Stage "docs")
 . (Join-Path $FrameworkRoot "tools\release_overlay_stage.ps1")
 Add-ModCatalog -BuildPath $BuildPath -Stage $Stage `
                -GameModSource (Join-Path $Root "mods\preloaded") `
-               -FrameworkModSource (Join-Path $FrameworkRoot "mods\builtin") | Out-Null
+               -FrameworkModSource (Join-Path $FrameworkRoot "mods\builtin") `
+               -RuntimeTarget psx-runtime | Out-Null
 $BundledBiosSrc = Join-Path $BuildPath "bios"
 if (!(Test-Path (Join-Path $BundledBiosSrc "openbios.bin")) -or
     (Get-Item (Join-Path $BundledBiosSrc "openbios.bin")).Length -ne 524288 -or
@@ -217,15 +232,14 @@ Copy-Item -Force (Join-Path $Root "game.toml") (Join-Path $Stage "game.toml")
 $RecompTools = (Resolve-Path -LiteralPath (Join-Path $FrameworkRoot "tools")).Path
 $RecompInc = (Resolve-Path -LiteralPath (Join-Path $FrameworkRoot "runtime/include")).Path
 $StagedGameToml = Join-Path $Stage 'game.toml'
-$AotPython = Join-Path $MingwBin 'python.exe'
-Invoke-Native {
-    & $AotPython (Join-Path $RecompTools 'aot_overlay_pipeline.py') release `
-        --profile (Join-Path $Root 'aot/overlays.json') `
-        --game-toml (Join-Path $Root 'game.toml') --runtime-config $StagedGameToml `
-        --runtime-build-dir $BuildPath --runtime-target psx-runtime `
-        --recompiler $RecompBin --work-dir (Join-Path $Root 'build-aot') `
-        --stage $Stage --gcc (Join-Path $MingwBin 'gcc.exe') --workers $Jobs
-} 'original-disc AOT extraction, compilation and audit'
+Invoke-ReleasePython @(
+    (Join-Path $RecompTools 'aot_overlay_pipeline.py'), 'release',
+    '--profile', (Join-Path $Root 'aot/overlays.json'),
+    '--game-toml', (Join-Path $Root 'game.toml'), '--runtime-config', $StagedGameToml,
+    '--runtime-build-dir', $BuildPath, '--runtime-target', 'psx-runtime',
+    '--recompiler', $RecompBin, '--work-dir', (Join-Path $Root 'build-aot'),
+    '--stage', $Stage, '--gcc', (Join-Path $MingwBin 'gcc.exe'), '--workers', [string]$Jobs
+)
 Add-OverlayToolchain -Stage $Stage -RecompDir $RecompDir -RecompTools $RecompTools `
                      -RecompInc $RecompInc -MingwBin $MingwBin `
                      -DlCache (Join-Path $Root "tools\_toolchain_cache") | Out-Null
@@ -233,7 +247,9 @@ Add-OverlayToolchain -Stage $Stage -RecompDir $RecompDir -RecompTools $RecompToo
 # MinGW Release), so the exe imports ONLY Windows system DLLs -- nothing to
 # bundle. Assert self-containment rather than trust it (mismatched side-by-side
 # DLLs were the cause of the 0xc000007b launch crash on other projects).
-$objdump = Join-Path $MingwBin "objdump.exe"
+$objdump = Join-Path $MingwBin 'objdump.exe'
+if (-not (Test-Path -LiteralPath $objdump)) { $objdump = Join-Path $MingwBin 'llvm-objdump.exe' }
+if (-not (Test-Path -LiteralPath $objdump)) { throw "No native objdump in $MingwBin" }
 $imports = & $objdump -p (Join-Path $Stage "JerseyDevil_Recompiled.exe") |
     Select-String "DLL Name: (.+)" | ForEach-Object { $_.Matches[0].Groups[1].Value.Trim() }
 $systemDlls = @("kernel32.dll","user32.dll","gdi32.dll","shell32.dll","msvcrt.dll",
@@ -297,8 +313,18 @@ foreach ($doc in @('VERSION','RELEASE_NOTES.md','framework_pins.txt','BUILD_PROV
     $source = Join-Path $Root $doc
     if (Test-Path -LiteralPath $source) { Copy-Item -LiteralPath $source -Destination $Stage -Force }
 }
+$ReplayHelper = Join-Path $BuildPath 'replay-diagnostics.py'
+if (-not (Test-Path -LiteralPath $ReplayHelper)) { throw "Build is missing $ReplayHelper" }
+Copy-Item -LiteralPath $ReplayHelper -Destination (Join-Path $Stage 'replay-diagnostics.py') -Force
+New-Item -ItemType Directory -Path (Join-Path $Stage 'docs') -Force | Out-Null
+Copy-Item -LiteralPath (Join-Path $Root 'docs/PLAYTEST_DIAGNOSTICS.md') -Destination (Join-Path $Stage 'docs') -Force
 Compress-Archive -Path (Join-Path $Stage "*") -DestinationPath $ZipPath -Force
 $Digest = (Get-FileHash -LiteralPath $ZipPath -Algorithm SHA256).Hash.ToLowerInvariant()
 [IO.File]::WriteAllText("$ZipPath.sha256", "$Digest  $([IO.Path]::GetFileName($ZipPath))`n", [Text.Encoding]::ASCII)
 
 Write-Host "Wrote $ZipPath"
+
+Invoke-ReleasePython @(
+    (Join-Path $FrameworkRoot 'tools/ci/audit_playtest_diagnostics_package.py'),
+    $ZipPath, '--game-id', 'SCUS-94907', '--diagnostics-id', 'jerseydevil.diagnostics'
+)

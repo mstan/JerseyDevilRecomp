@@ -337,6 +337,8 @@ cp "$root/packaging/release/START_HERE.txt" "$payload/START_HERE.txt"
 cp "$root/LICENSE" "$root/README.md" "$payload/"
 mkdir -p "$payload/docs"
 cp "$root/docs/AOT_OVERLAYS.md" "$payload/docs/"
+cp "$root/docs/PLAYTEST_DIAGNOSTICS.md" "$payload/docs/"
+cp "$build_dir/replay-diagnostics.py" "$payload/"
 
 # recomp-ui resolves fonts/textures through SDL_GetBasePath(), which points at
 # the real ELF inside the mount rather than psxrecomp's writable argv[0] anchor.
