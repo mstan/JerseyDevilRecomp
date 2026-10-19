@@ -1,5 +1,7 @@
 # Jersey Devil Recompiled
 
+**[Read more about it](https://1379.tech/getting-into-the-halloween-spirit-with-recompilations/)** on the blog.
+
 Play the PlayStation 1 game **Jersey Devil** as a real PC game.
 
 <p align="center">
@@ -75,11 +77,11 @@ in the launcher.
 
 ## What works right now?
 
-The Mods page offers widescreen and optional interpolated rendering at display
-refresh, 60, 90, 120, 144, 165, or 240 FPS. Extra frames run the original drawing
-code with intermediate model and camera transforms. Game logic, input, timers,
-and audio retain their original cadence. OpenGL is required; lower internal
-resolution gives extra frames more rendering time.
+The Mods page offers widescreen: Adaptive (fits your window) or a fixed 16:9.
+Higher internal resolution is in the launcher's video settings.
+
+Frame interpolation from earlier previews has been withdrawn because it garbled
+the picture. It can no longer be enabled, including from older saved settings.
 
 The game boots, plays its intro, loads levels, and you can run around and play.
 That is as far as testing has gone. Version **0.3.1** remains a preview build.
@@ -186,4 +188,4 @@ Original-disc overlay preparation and release requirements are documented in [AO
 
 ## v0.3.0 rendering update
 
-Game-code interpolation for higher presentation rates; camera/model motion stays separate from simulation. Widescreen subdivision and renderer-bank culling fixes retain geometry across the wider view.
+Game-code interpolation for higher presentation rates (since withdrawn); camera/model motion stays separate from simulation. Widescreen subdivision and renderer-bank culling fixes retain geometry across the wider view.
