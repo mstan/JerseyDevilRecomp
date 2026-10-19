@@ -4,7 +4,7 @@ version = "1.0.0"
 name = "Playtest Diagnostics"
 author = "Jersey Devil Recompiled"
 license = "GPL-3.0-only"
-description = "Records inputs, controller presence, host timing and CD/render evidence with starting memory cards. Press L3 + R3 to mark a problem. Enabled by default for playtests."
+description = "Records inputs, controller presence, host timing and CD/render evidence with starting memory cards. Press L3 + R3 to mark a problem. Off by default; enable it before reproducing a problem you want to report."
 resolver = "declarative"
 save_compatibility = "shared"
 
@@ -16,14 +16,14 @@ id = "recording"
 name = "Input Recording"
 description = "Writes inputs.csv, session settings and starting card copies beneath saves/diagnostics beside the game. Zip the newest session folder when reporting a bug. The disc and BIOS are never included."
 group = "Diagnostics"
-default_enabled = true
+default_enabled = false
 
 [[feature]]
 id = "osd"
 name = "Input Display"
 description = "Shows the accepted P1/P2 buttons, a frame counter and REC/PLAY status in the corner. Turning this off does not stop recording."
 group = "Diagnostics"
-default_enabled = true
+default_enabled = false
 
 [[plugin]]
 feature = "recording"
