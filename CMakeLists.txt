@@ -47,20 +47,18 @@ psxrecomp_add_playtest_diagnostics(psx-runtime
     GAME_ID "SCUS-94907"
     MOD_ID "jerseydevil.diagnostics")
 target_sources(psx-runtime PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/jersey_widescreen_plugin.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/jersey_frame_rate_plugin.cpp")
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/mods/jersey_widescreen_plugin.c")
+# Frame interpolation is withdrawn (garbled rendering, render-pass watchdog;
+# see hidden/frame-interpolation/README.md). Block stale bundled/installed
+# copies and saved selections left by older releases.
+set_property(SOURCE "${PSXRECOMP_ROOT}/runtime/src/mod_runtime.cpp" APPEND PROPERTY
+    COMPILE_DEFINITIONS "PSX_MOD_DISABLED_PACKAGES=\"jerseydevil.enhancement.frame-interpolation\"")
 
 if(BUILD_TESTING)
     add_executable(jersey_widescreen_test tests/test_jersey_widescreen.c)
     target_include_directories(jersey_widescreen_test PRIVATE
         "${PSXRECOMP_ROOT}/runtime/include")
     add_test(NAME jersey_widescreen_test COMMAND jersey_widescreen_test)
-    add_executable(jersey_frame_rate_test tests/test_jersey_frame_rate.cpp
-        "${PSXRECOMP_ROOT}/runtime/src/render_pass_projection.cpp"
-        "${PSXRECOMP_ROOT}/runtime/src/render_pass_motion.c")
-    target_include_directories(jersey_frame_rate_test PRIVATE
-        "${PSXRECOMP_ROOT}/runtime/include")
-    add_test(NAME jersey_frame_rate_test COMMAND jersey_frame_rate_test)
 endif()
 
 # Stage runtime configs next to the exe for direct build/ launches. Only copy
