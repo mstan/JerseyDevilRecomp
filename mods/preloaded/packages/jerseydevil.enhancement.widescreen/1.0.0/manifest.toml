@@ -44,3 +44,7 @@ when = { aspect = "16:9" }
 feature = "widescreen"
 id = "jerseydevil.widescreen.adaptive"
 when = { aspect = "adaptive" }
+
+[[plugin]]
+feature = "widescreen"
+id = "jerseydevil.widescreen.final-ot"
