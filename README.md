@@ -1,5 +1,7 @@
 # Jersey Devil Recompiled
 
+**[Read more about it](https://1379.tech/getting-into-the-halloween-spirit-with-recompilations/)** on the blog.
+
 Play the PlayStation 1 game **Jersey Devil** as a real PC game.
 
 <p align="center">
