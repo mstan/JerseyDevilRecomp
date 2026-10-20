@@ -4,7 +4,7 @@ version = "1.0.0"
 name = "Playtest Diagnostics"
 author = "Jersey Devil Recompiled"
 license = "GPL-3.0-only"
-description = "Records inputs, controller presence, host timing and CD/render evidence with starting memory cards. Press L3 + R3 to mark a problem. Off by default; enable it before reproducing a problem you want to report."
+description = "Records inputs, controller presence, host timing and CD/render evidence with starting memory cards. Press L3 + R3 to mark a problem. Off by default in public releases (on in playtest builds); enable it before reproducing a problem you want to report."
 resolver = "declarative"
 save_compatibility = "shared"
 

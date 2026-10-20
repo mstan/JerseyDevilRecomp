@@ -1,6 +1,6 @@
 # Playtest diagnostics
 
-Playtest Diagnostics is off by default. Enable it in the Mods menu before reproducing a problem you want to report (offline play).
+Playtest Diagnostics is off by default in public releases and on by default in playtest builds and local dev builds. Enable it in the Mods menu before reproducing a problem you want to report (offline play).
 Recording pauses during netplay. Input Recording
 and Input Display are independent controls: hiding the display keeps recording
 running. Both accepted controller inputs, analog positions and controller

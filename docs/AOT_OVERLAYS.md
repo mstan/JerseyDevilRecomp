@@ -54,6 +54,9 @@ old capture records is retired.
 
 Windows: `tools/package_release.ps1 -BuildDir build-release`.
 Linux: `bash tools/package_appimage.sh --build-dir build-release`.
+Both default to a public release (`-DPSX_PUBLIC_RELEASE=ON`, Playtest
+Diagnostics default off). Pass `-Playtest` / `--playtest` for a non-public
+playtest package (diagnostics default on, `-playtest` in the artifact name).
 The compatibility wrapper `scripts/package_setup_release.sh` routes to these
 same packagers. Both require the original disc configured in game.toml and
 freshly extract, compile, audit and stage every configured AOT recipe, even when

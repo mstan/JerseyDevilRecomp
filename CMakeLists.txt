@@ -45,7 +45,9 @@ psxrecomp_add_game_runtime(psx-runtime
     CODEGEN_SETUP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/codegen_setup.c"
 )
 
-# Shared playtest recording, input display and replay tooling (off by default).
+# Shared playtest recording, input display and replay tooling. Default off only
+# in public releases (-DPSX_PUBLIC_RELEASE=ON, set by the packagers); dev and
+# playtest builds stage it default-on (psxrecomp docs/PLAYTEST_DIAGNOSTICS.md).
 include("${PSXRECOMP_ROOT}/runtime/playtest_diagnostics.cmake")
 psxrecomp_add_playtest_diagnostics(psx-runtime
     GAME_ID "SCUS-94907"
