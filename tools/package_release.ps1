@@ -310,7 +310,10 @@ start = start
 select = back
 "@ | Set-Content -Encoding ASCII (Join-Path $Stage "input.ini")
 
-Copy-Item (Join-Path $Root "packaging/release/START_HERE.txt") $Stage
+# START_HERE.txt carries @VERSION@; stamp it so the shipped header is never stale.
+$StartHere = (Get-Content -Raw -LiteralPath (Join-Path $Root "packaging/release/START_HERE.txt")).Replace("@VERSION@", $Version)
+if ($StartHere.Contains("@VERSION@")) { throw "START_HERE.txt still has an unstamped @VERSION@" }
+[IO.File]::WriteAllText((Join-Path $Stage "START_HERE.txt"), $StartHere, (New-Object System.Text.UTF8Encoding($false)))
 
 if (Test-Path $ZipPath) {
     Remove-Item -Force $ZipPath
