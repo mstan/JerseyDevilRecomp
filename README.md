@@ -84,7 +84,7 @@ Frame interpolation from earlier previews has been withdrawn because it garbled
 the picture. It can no longer be enabled, including from older saved settings.
 
 The game boots, plays its intro, loads levels, and you can run around and play.
-That is as far as testing has gone. Version **0.3.1** remains a preview build.
+That is as far as testing has gone. Version **0.3.2** remains a preview build.
 
 Expect rough edges. If something looks wrong or freezes, that is useful to know —
 please tell us (see below).

@@ -1,3 +1,11 @@
+# v0.3.2
+
+Frame interpolation is withdrawn because it garbled the picture and could freeze the game. It can no longer be enabled, including from older saved settings or leftover mod copies. Widescreen now keeps the HUD in the screen corners at its original size. Playtest Diagnostics is off by default; enable it in Mods before reproducing a problem you want to report.
+
+Windows and Linux (AppImage) builds. These remain preview builds; full-game completion is not recertified.
+
+---
+
 # v0.3.1
 
 Offline playtest recording and the controller display are enabled by default. Sessions capture accepted inputs, controller presence, RAM checks and host/CD/render timing evidence; the bundled replay helper checks reproduction against the same build. See [the diagnostics guide](docs/PLAYTEST_DIAGNOSTICS.md) for incident marking and private replay.
