@@ -1,6 +1,7 @@
 #!/bin/sh
-# AppImage entry point. Tokens (@NAME@) are stamped by tools/package_appimage.sh
-# from packaging/release/app.conf, so this file is title-neutral.
+# AppImage entry point. Its placeholders (upper-case names between at-signs) are
+# stamped by psxrecomp/tools/package_title_release.py from packaging/release.toml,
+# so this file is title-neutral.
 #
 # psxrecomp anchors settings, assets, saves, cache, and mods to argv[0]. Inside
 # an AppImage that anchor is a read-only squashfs mount, so everything writable
@@ -70,7 +71,7 @@ if [ -d "$payload/overlay_toolchain" ]; then
         ln -sfn "$payload/overlay_toolchain" "$data_dir/overlay_toolchain"
     fi
 fi
-for file in game.toml LICENSE README.md RELEASE.txt START_HERE.txt AOT_CACHE_AUDIT.json VERSION RELEASE_NOTES.md framework_pins.txt BUILD_PROVENANCE.json; do
+for file in game.toml LICENSE README.md START_HERE.txt AOT_CACHE_AUDIT.json VERSION RELEASE_NOTES.md RELEASE_MANIFEST.json; do
     if [ -f "$payload/$file" ]; then
         cp -f "$payload/$file" "$data_dir/$file"
         chmod u+rw "$data_dir/$file"
@@ -83,7 +84,7 @@ if [ ! -f "$data_dir/input.ini" ] && [ -f "$payload/input.ini" ]; then
     chmod u+rw "$data_dir/input.ini"
 fi
 
-# Stamped by package_appimage.sh from packaging/release/VERSION so the layout
+# Stamped by package_title_release.py from packaging/release/VERSION so the layout
 # marker never drifts from the artifact name.
 printf '%s\n' "@VERSION@" > "$data_dir/.appimage-layout-version"
 

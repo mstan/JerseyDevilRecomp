@@ -131,6 +131,16 @@ The result is `build-release/JerseyDevil_Recompiled.exe`. The launcher can run
 the same two steps for you. Full setup notes are in the
 [framework guide](psxrecomp/docs/GAME_PROJECT_SETUP.md).
 
+Player packages (Windows ZIP and Linux AppImage) come from the framework's
+release command. `--channel` is required: `public` or `playtest`.
+
+```powershell
+psxrecomp/tools/package_title_release.ps1 --channel public --platform all
+```
+
+This repo keeps only the release config, `packaging/release.toml`. See
+[releasing a title](psxrecomp/docs/RELEASING_A_TITLE.md).
+
 Game details: USA release, serial **SCUS-94907**, boot executable
 `SCUS_949.07`, 45 disc tracks, single player.
 
