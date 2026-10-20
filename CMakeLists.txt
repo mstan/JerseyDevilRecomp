@@ -23,6 +23,10 @@ include(CTest)
 # endif()
 set(PSX_SETUP_WIZARD ON CACHE BOOL
     "Advertise first-run setup wizard + Generate & rebuild in recomp-ui" FORCE)
+# OpenBIOS only: the bundled backend is the one players run. Linking a retail
+# backend would let first-run discovery silently select a BIOS elsewhere on disk.
+set(PSXRECOMP_BIOS_STEMS "OpenBIOS" CACHE STRING
+    "BIOS backends included in the player package" FORCE)
 include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 
 psxrecomp_add_game_runtime(psx-runtime

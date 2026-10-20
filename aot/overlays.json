@@ -4,9 +4,9 @@
   "disc_hashes": {
     "sha1": "8ba20acc230b5308b92ae34be4c5e833b959d363"
   },
-  "bios_resident": true,
+  "bios_resident": false,
   "strict_bounds": true,
-  "expected_records": 11,
+  "expected_records": 10,
   "images": [
     {
       "method": "psx_exe",
