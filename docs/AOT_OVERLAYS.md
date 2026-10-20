@@ -52,23 +52,23 @@ old capture records is retired.
 
 ## Build and release
 
-Windows: `tools/package_release.ps1 -BuildDir build-release`.
-Linux: `bash tools/package_appimage.sh --build-dir build-release`.
-Both default to a public release (`-DPSX_PUBLIC_RELEASE=ON`, Playtest
-Diagnostics default off). Pass `-Playtest` / `--playtest` for a non-public
-playtest package (diagnostics default on, `-playtest` in the artifact name).
-The compatibility wrapper `scripts/package_setup_release.sh` routes to these
-same packagers. Both require the original disc configured in game.toml and
-freshly extract, compile, audit and stage every configured AOT recipe, even when
-base-code regeneration/build is skipped. A missing disc, changed loader word,
-missing recipe or failed native audit stops packaging. Existing caches and RAM
-captures are never release inputs.
+Releases are cut with the framework's one release command; this repository
+keeps only `packaging/release.toml`:
 
-The published Windows ZIP and Linux AppImage include `AOT_CACHE_AUDIT.json`,
-guarded native pairs and fallback tooling. The former host-only CI publisher
-has been replaced by published-artifact verification: releases are built on an
-owner machine with private media, then uploaded together with SHA-256 files.
+```powershell
+psxrecomp/tools/package_title_release.ps1 --channel public   --platform all
+psxrecomp/tools/package_title_release.ps1 --channel playtest --platform all
+```
 
+`--channel` is required. `public` ships Playtest Diagnostics default off;
+`playtest` ships them on and puts `-playtest` in every artifact name. On
+Windows, `--platform all` writes the Windows ZIP and, through WSL, the Linux
+AppImage to `dist/`. See psxrecomp `docs/RELEASING_A_TITLE.md`.
+Every run needs the original disc configured in game.toml. It extracts,
+compiles, audits and stages every configured AOT recipe again (AOT mode
+`cache`). A missing disc, changed loader word, missing recipe or failed native
+audit stops packaging. Existing caches and RAM captures are never release
+inputs.
 ## Validation limits
 
 SAVE.EXE's 100-byte arithmetic helper at 0x800C5E14–0x800C5E78 contains

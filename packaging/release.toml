@@ -1,0 +1,46 @@
+# Release config for psxrecomp/tools/package_title_release.py -- the one
+# release command (psxrecomp docs/RELEASING_A_TITLE.md). Everything else about
+# cutting a release is the framework's.
+schema = 1
+
+[product]
+name = "JerseyDevilRecomp"
+display_name = "Jersey Devil Recompiled"
+exe_name = "JerseyDevil_Recompiled"
+version_file = "packaging/release/VERSION"
+launcher_boxart = "launcher_assets/img/boxart.tga"
+
+[build]
+cmake_args = ["-DPSX_SDL_BACKEND=SDL3", "-DPSX_PGXP_VARIANT=OFF"]
+
+# Every release extracts the five secondary executables and renderer banks
+# from the player's disc layout and ships their audited native cache.
+[aot]
+mode = "cache"
+profile = "aot/overlays.json"
+
+[overlay_toolchain]
+ship = true
+
+[diagnostics]
+game_id = "SCUS-94907"
+package_id = "jerseydevil.diagnostics"
+
+[payload]
+start_here = "packaging/release/START_HERE.txt"
+files = [
+    "README.md",
+    "LICENSE",
+    "RELEASE_NOTES.md",
+    { from = "packaging/release/VERSION", to = "VERSION" },
+    { from = "packaging/release/input.ini", to = "input.ini" },
+    "docs/AOT_OVERLAYS.md",
+    "docs/PLAYTEST_DIAGNOSTICS.md",
+]
+
+[linux]
+app_run = "packaging/linux/AppRun"
+desktop_file = "packaging/linux/io.github.mstan.JerseyDevilRecomp.desktop"
+icon = "launcher_assets/img/boxart.tga"
+payload_dir = "jerseydevilrecomp"
+env_prefix = "JERSEYDEVIL_RECOMP"
