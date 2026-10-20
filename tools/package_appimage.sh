@@ -29,11 +29,32 @@
 #   bash tools/package_appimage.sh --version v0.0.7
 #   bash tools/package_appimage.sh --out /mnt/f/drop   # or --out 'F:\drop'
 #   bash tools/package_appimage.sh --skip-build        # reuse existing build dir
+#   bash tools/package_appimage.sh --playtest          # non-public playtest build
+#
+# Default is a PUBLIC release (-DPSX_PUBLIC_RELEASE=ON: Playtest Diagnostics
+# default off). --playtest configures PSX_PUBLIC_RELEASE=OFF (diagnostics
+# default on) and names the artifact <name>-<version>-playtest-linux-x86_64.
+# Any failure ends with a final "PACKAGING FAILED: <reason>" line, exit != 0.
 #
 # Prereqs: cmake, ninja or make, a C/C++ toolchain, libsdl2-dev,
 # libgl1-mesa-dev, curl, ImageMagick (for the icon), and a generated/ tree
 # (the recompiler runs on Windows; generated C is committed).
-set -euo pipefail
+set -Eeuo pipefail
+
+# --- fail loudly -------------------------------------------------------------
+# set -e alone exits silently mid-log. die() names the reason; the ERR/EXIT
+# traps cover every other failing command, so no failure path is quiet.
+fail_reason=""
+die() { fail_reason=$*; exit 1; }
+trap 'rc=$?; [ -n "$fail_reason" ] || fail_reason="line $LINENO: $BASH_COMMAND (exit $rc)"' ERR
+report_exit() {
+    rc=$1
+    if [ "$rc" -ne 0 ]; then
+        [ -n "$fail_reason" ] || fail_reason="exit $rc"
+        printf '\nPACKAGING FAILED: %s\n' "$fail_reason" >&2
+    fi
+}
+trap 'report_exit $?' EXIT
 
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 
@@ -44,6 +65,7 @@ orig_args=("$@")
 version=""
 out_dir=""
 skip_build=0
+playtest=0
 build_dir=${BUILD_DIR:-"$root/build-appimage"}
 # Leave two cores for the rest of the machine; packaging must not make the box
 # unusable. Override with --jobs / BUILD_JOBS.
@@ -57,9 +79,10 @@ while [ $# -gt 0 ]; do
         --build-dir) build_dir=$2; shift 2;;
         --jobs)    jobs=$2; shift 2;;
         --skip-build) skip_build=1; shift;;
+        --playtest) playtest=1; shift;;
         --nice) nice_level=$2; shift 2;;
         -h|--help) sed -n '2,36p' "$0"; exit 0;;
-        *) echo "unknown arg: $1" >&2; exit 2;;
+        *) die "unknown arg: $1";;
     esac
 done
 
@@ -77,19 +100,25 @@ fi
 # player config. Keep widescreen codegen and runtime gates identical.
 
 [ -n "$version" ] || version=$(tr -d ' \t\r\n' < "$root/packaging/release/VERSION")
-[ -n "$version" ] || { echo "empty version" >&2; exit 1; }
+[ -n "$version" ] || die "empty version"
+if [ "$playtest" = "1" ]; then
+    package_mode=playtest public_release=OFF artifact_suffix=-playtest
+else
+    package_mode=public public_release=ON artifact_suffix=
+fi
+echo "package mode: $package_mode (PSX_PUBLIC_RELEASE=$public_release)"
 
 # Per-game identity (see packaging/release/app.conf). Everything below this
 # point is title-neutral, so porting this script to another title is a copy
 # plus that one file.
 app_conf=$root/packaging/release/app.conf
-[ -f "$app_conf" ] || { echo "missing $app_conf" >&2; exit 1; }
+[ -f "$app_conf" ] || die "missing $app_conf"
 # shellcheck source=/dev/null
 . "$app_conf"
 ARTIFACT_NAME=${ARTIFACT_NAME:-$EXE_NAME}
 for v in APP_NAME EXE_NAME PAYLOAD_DIR DESKTOP_ID ENV_PREFIX ICON_SOURCE FRAMEWORK_DIR; do
     eval "val=\${$v:-}"
-    [ -n "$val" ] || { echo "$app_conf does not set $v" >&2; exit 1; }
+    [ -n "$val" ] || die "$app_conf does not set $v"
 done
 
 # --- path handling ---------------------------------------------------------
@@ -99,7 +128,7 @@ to_unix_path() {
     case "$1" in
         [A-Za-z]:[/\\]*)
             if command -v wslpath >/dev/null 2>&1; then wslpath -u "$1"; else
-                echo "cannot translate Windows path '$1' (wslpath missing)" >&2; exit 2
+                die "cannot translate Windows path '$1' (wslpath missing)"
             fi;;
         *) printf '%s\n' "$1";;
     esac
@@ -125,7 +154,7 @@ case "$root" in
 esac
 appdir=$stage_base/AppDir
 tools_dir=${RECOMP_APPIMAGE_TOOLS:-"${XDG_CACHE_HOME:-$HOME/.cache}/recomp-appimage-tools"}
-output=$out_dir/$ARTIFACT_NAME-$version-linux-x86_64.AppImage
+output=$out_dir/$ARTIFACT_NAME-$version$artifact_suffix-linux-x86_64.AppImage
 
 cleanup() {
     [ -n "${derived_toml:-}" ] && rm -f -- "$derived_toml"
@@ -134,12 +163,10 @@ cleanup() {
             rm -rf -- "$stage_base";;
     esac
 }
-trap cleanup EXIT
+trap 'rc=$?; cleanup; report_exit $rc' EXIT
 
 if [ -z "$(ls "$root"/generated/*_dispatch.c 2>/dev/null)" ]; then
-    echo "Missing generated game sources (generated/*_dispatch.c)." >&2
-    echo "Run the recompiler first: $FRAMEWORK_DIR/recompiler/build*/psxrecomp-game --config game.toml" >&2
-    exit 1
+    die "missing generated game sources (generated/*_dispatch.c); run the recompiler first: $FRAMEWORK_DIR/recompiler/build*/psxrecomp-game --config game.toml"
 fi
 
 # --- reproducibility anchor ------------------------------------------------
@@ -191,13 +218,23 @@ for stem in OpenBIOS SCPH1001; do
     needed_stems="$needed_stems $stem"
 done
 
+# --- recompiler emitters ---------------------------------------------------
+# Build BOTH emitters before anything slow: psx_add_overlay_toolchain always
+# needs psxrecomp-bios beside psxrecomp-game, even when generated BIOS C
+# already exists. Building it only for missing stems failed releases at the
+# toolchain stage after the whole runtime build.
+recompiler_build=$fw/$bios_build
+recompiler_bin=$recompiler_build/psxrecomp-game
+if [ ! -x "$recompiler_bin" ] || [ ! -x "$recompiler_build/psxrecomp-bios" ]; then
+    gen=Ninja
+    command -v ninja >/dev/null 2>&1 || gen="Unix Makefiles"
+    cmake -S "$fw/recompiler" -B "$recompiler_build" -G "$gen" -DCMAKE_BUILD_TYPE=Release
+    cmake --build "$recompiler_build" --target psxrecomp-game psxrecomp-bios -j "$jobs"
+fi
+[ -x "$recompiler_bin" ] || die "recompiler build did not produce $recompiler_bin"
+[ -x "$recompiler_build/psxrecomp-bios" ] || die "recompiler build did not produce $recompiler_build/psxrecomp-bios"
+
 if [ -n "$needed_stems" ]; then
-    if [ ! -x "$fw/$bios_build/psxrecomp-bios" ]; then
-        gen=Ninja
-        command -v ninja >/dev/null 2>&1 || gen="Unix Makefiles"
-        cmake -S "$fw/recompiler" -B "$fw/$bios_build" -G "$gen" -DCMAKE_BUILD_TYPE=Release
-        cmake --build "$fw/$bios_build" --target psxrecomp-bios -j "$jobs"
-    fi
     for stem in $needed_stems; do
         echo "Generating recompiled BIOS backend: $stem"
         ( cd "$fw" && PSXRECOMP_BIOS_BUILD="$bios_build" \
@@ -216,16 +253,21 @@ if [ "$skip_build" = "0" ]; then
         -DCMAKE_BUILD_TYPE=Release \
         -DPSX_SDL_BACKEND=SDL3 \
         -DPSX_DEBUG_TOOLS=OFF -DPSX_PGXP_VARIANT=OFF -DPSX_GAME_VERSION="$version" \
+        -DPSX_PUBLIC_RELEASE="$public_release" \
         -DCMAKE_C_COMPILER_LAUNCHER= \
         -DCMAKE_CXX_COMPILER_LAUNCHER= \
         -DCMAKE_EXE_LINKER_FLAGS="-Wl,--build-id=none"
     cmake --build "$build_dir" --target psx-runtime -j "$jobs"
 fi
+# --skip-build reuses a tree: it must have been configured for this mode.
+cached_public=$(sed -n 's/^PSX_PUBLIC_RELEASE:BOOL=//p' "$build_dir/CMakeCache.txt" 2>/dev/null || true)
+[ "$cached_public" = "$public_release" ] ||
+    die "$build_dir has PSX_PUBLIC_RELEASE='${cached_public:-unset}', expected $public_release for a $package_mode package"
 
 elf=$build_dir/$EXE_NAME
 [ -f "$elf" ] || elf=$build_dir/psx-runtime
-[ -f "$elf" ] || { echo "no runtime ELF under $build_dir" >&2; exit 1; }
-file -b "$elf" | grep -q ELF || { echo "$elf is not an ELF binary" >&2; exit 1; }
+[ -f "$elf" ] || die "no runtime ELF under $build_dir"
+file -b "$elf" | grep -q ELF || die "$elf is not an ELF binary"
 
 # --- player game.toml ------------------------------------------------------
 # Two conventions exist across the titles and both are honoured:
@@ -239,7 +281,7 @@ file -b "$elf" | grep -q ELF || { echo "$elf is not an ELF binary" >&2; exit 1; 
 player_toml=$root/packaging/release/game.toml
 derived_toml=""
 if [ ! -f "$player_toml" ]; then
-    [ -f "$root/game.toml" ] || { echo "no packaging/release/game.toml and no game.toml" >&2; exit 1; }
+    [ -f "$root/game.toml" ] || die "no packaging/release/game.toml and no game.toml"
     derived_toml=${TMPDIR:-/tmp}/player-game.$$.toml
     awk '
         /Audit-specific/ { exit }
@@ -259,24 +301,15 @@ fi
 # against the dev config (a different tag) is never mistaken for a usable one.
 game_id=$(sed -n 's/^[[:space:]]*id[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' \
     "$player_toml" | head -1)
-[ -n "$game_id" ] || { echo "could not read [game] id from $player_toml" >&2; exit 1; }
+[ -n "$game_id" ] || die "could not read [game] id from $player_toml"
 
-recompiler_bin=$fw/$bios_build/psxrecomp-game
-[ -x "$recompiler_bin" ] || recompiler_bin=$fw/recompiler/build-linux/psxrecomp-game
-if [ ! -x "$recompiler_bin" ]; then
-    recompiler_build=$(dirname -- "$recompiler_bin")
-    gen=Ninja
-    command -v ninja >/dev/null 2>&1 || gen="Unix Makefiles"
-    cmake -S "$fw/recompiler" -B "$recompiler_build" -G "$gen" -DCMAKE_BUILD_TYPE=Release
-    cmake --build "$recompiler_build" --target psxrecomp-game -j "$jobs"
-fi
 cg_tag=$(psx_overlay_cg_tag \
     --runtime-include "$fw/runtime/include" \
     --recompiler "$recompiler_bin" \
     --game-toml "$player_toml" \
     --flavor-from-build "$build_dir" \
     --runtime-target psx-runtime)
-[ -n "$cg_tag" ] || { echo "could not compute codegen tag" >&2; exit 1; }
+[ -n "$cg_tag" ] || die "could not compute codegen tag"
 echo "game=$game_id  codegen tag=$cg_tag"
 # --- stage AppDir ----------------------------------------------------------
 rm -rf -- "$appdir"
@@ -295,15 +328,20 @@ install -m 0644 "$root/packaging/linux/$DESKTOP_ID.desktop" \
     "$appdir/$DESKTOP_ID.desktop"
 
 for tree in assets bios; do
-    [ -d "$build_dir/$tree" ] || { echo "build did not stage $tree/" >&2; exit 1; }
+    [ -d "$build_dir/$tree" ] || die "build did not stage $tree/"
     cp -a "$build_dir/$tree" "$payload/$tree"
 done
 
 psx_add_mod_catalog --build-path "$build_dir" --stage "$payload" \
                     --runtime-target psx-runtime
+# Playtest Diagnostics default follows the package mode (owner policy
+# 2026-10-19): public => off, playtest => on. Source manifests stay off.
+python3 "$root/tools/check_diagnostics_defaults.py" "$payload/mods/bundled" \
+    jerseydevil.diagnostics "$package_mode" ||
+    die "Playtest Diagnostics defaults do not match the $package_mode package mode"
 # OpenBIOS must ride along with its notice; a retail BIOS must not.
-[ -f "$payload/bios/openbios.bin" ] || { echo "missing bundled OpenBIOS" >&2; exit 1; }
-[ -f "$payload/bios/OpenBIOS.LICENSE" ] || { echo "missing OpenBIOS notice" >&2; exit 1; }
+[ -f "$payload/bios/openbios.bin" ] || die "missing bundled OpenBIOS"
+[ -f "$payload/bios/OpenBIOS.LICENSE" ] || die "missing OpenBIOS notice"
 
 mkdir -p "$payload/licenses"
 cp -a "$fw/runtime/licenses/." "$payload/licenses/"
@@ -346,17 +384,19 @@ ln -s "../share/$PAYLOAD_DIR/assets" "$appdir/usr/bin/assets"
 
 if command -v magick >/dev/null 2>&1; then image_tool=magick
 elif command -v convert >/dev/null 2>&1; then image_tool=convert
-else echo "ImageMagick is required for the AppImage icon." >&2; exit 1; fi
+else die "ImageMagick is required for the AppImage icon"; fi
 "$image_tool" "$root/$ICON_SOURCE" \
     -resize 240x240 -background transparent -gravity center -extent 256x256 \
     "$appdir/$DESKTOP_ID.png"
 ln -s "$DESKTOP_ID.png" "$appdir/.DirIcon"
 
 # --- pinned tooling --------------------------------------------------------
-linuxdeploy_url=https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-linuxdeploy_sha=36a2d7e274d12e1050d0e9ecfe11d339ed54720b2bec464c286d53f8b07f5c62
-appimagetool_url=https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
-appimagetool_sha=a6d71e2b6cd66f8e8d16c37ad164658985e0cf5fcaa950c90a482890cb9d13e0
+# Fixed release tags, never `continuous`: a moving tag changes its bytes and
+# breaks the checksum. Same pins as MediEvil II.
+linuxdeploy_url=https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20251107-1/linuxdeploy-x86_64.AppImage
+linuxdeploy_sha=c20cd71e3a4e3b80c3483cef793cda3f4e990aca14014d23c544ca3ce1270b4d
+appimagetool_url=https://github.com/AppImage/appimagetool/releases/download/1.9.1/appimagetool-x86_64.AppImage
+appimagetool_sha=ed4ce84f0d9caff66f50bcca6ff6f35aae54ce8135408b3fa33abfc3cb384eb0
 
 mkdir -p "$tools_dir"
 fetch_tool() {

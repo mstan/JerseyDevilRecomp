@@ -12,10 +12,20 @@ param(
     [string]$ToolchainBin = "C:/msys64/mingw64/bin",
     [string]$Python = "py",
     [string[]]$CMakeArguments = @(),
-    [switch]$SkipRegen
+    [switch]$SkipRegen,
+    # Default: a PUBLIC release (-DPSX_PUBLIC_RELEASE=ON, Playtest Diagnostics
+    # default off). -Playtest cuts a non-public playtest package instead
+    # (diagnostics default on) with "-playtest" in the ZIP name.
+    [switch]$Playtest
 )
 
 $ErrorActionPreference = "Stop"
+# Fail loudly: any terminating error ends with one clear last line + exit 1.
+trap {
+    Write-Host ""
+    Write-Host ("PACKAGING FAILED: {0}" -f $_.Exception.Message) -ForegroundColor Red
+    exit 1
+}
 
 $Root = Resolve-Path (Join-Path $PSScriptRoot "..")
 
@@ -44,7 +54,14 @@ if ([string]::IsNullOrWhiteSpace($Version)) {
 $BuildPath = Join-Path $Root $BuildDir
 $StageRoot = Join-Path $Root "release-stage"
 $Stage = Join-Path $StageRoot "JerseyDevilRecomp-windows-x64"
-$ZipPath = Join-Path $Root ("JerseyDevilRecomp-{0}-windows-x64.zip" -f $Version)
+$PackageMode = if ($Playtest) { 'playtest' } else { 'public' }
+$PublicRelease = if ($Playtest) { 'OFF' } else { 'ON' }
+if ($CMakeArguments | Where-Object { $_ -match '^-DPSX_PUBLIC_RELEASE[:=]' }) {
+    throw 'Do not pass PSX_PUBLIC_RELEASE in -CMakeArguments; use -Playtest for a non-public package.'
+}
+$ZipSuffix = if ($Playtest) { '-playtest' } else { '' }
+$ZipPath = Join-Path $Root ("JerseyDevilRecomp-{0}{1}-windows-x64.zip" -f $Version, $ZipSuffix)
+Write-Host "Package mode: $PackageMode (PSX_PUBLIC_RELEASE=$PublicRelease)"
 $MingwBin = $ToolchainBin
 
 $env:PATH = "$MingwBin;$env:PATH"
@@ -131,7 +148,10 @@ $RecompDir = if ([System.IO.Path]::IsPathRooted($RecompilerBuildDir)) {
     $RecompilerBuildDir
 } else { Join-Path $FrameworkRoot $RecompilerBuildDir }
 $RecompBin = Join-Path $RecompDir "psxrecomp-game.exe"
-if (-not (Test-Path -LiteralPath $RecompBin)) {
+# Both emitters, up front: Add-OverlayToolchain always needs psxrecomp-bios, so
+# a tree holding only psxrecomp-game used to fail after the whole runtime build.
+if (-not (Test-Path -LiteralPath $RecompBin) -or
+    -not (Test-Path -LiteralPath (Join-Path $RecompDir "psxrecomp-bios.exe"))) {
     Invoke-Native { & $CMake -S $RecompSourceDir -B $RecompDir -G Ninja -DCMAKE_BUILD_TYPE=Release } 'emitter configure'
     Invoke-Native { & $CMake --build $RecompDir --target psxrecomp-game psxrecomp-bios -j $Jobs } 'emitter build'
 }
@@ -141,7 +161,7 @@ if (-not $SkipRegen) {
     Invoke-Native { & $RecompBin --config (Join-Path $Root 'game.toml') } 'base game regeneration'
 }
 
-Invoke-Native { & $CMake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_DEBUG_TOOLS=OFF -DPSX_PGXP_VARIANT=OFF -DPSX_SDL_BACKEND=SDL3 "-DPSX_GAME_VERSION=$Version" @CMakeArguments } "cmake configure"
+Invoke-Native { & $CMake -S $Root -B $BuildPath -G Ninja -DCMAKE_BUILD_TYPE=Release -DPSX_DEBUG_TOOLS=OFF -DPSX_PGXP_VARIANT=OFF -DPSX_SDL_BACKEND=SDL3 "-DPSX_GAME_VERSION=$Version" "-DPSX_PUBLIC_RELEASE=$PublicRelease" @CMakeArguments } "cmake configure"
 Invoke-Native { & $CMake --build $BuildPath --target psx-runtime -j $Jobs } "cmake build"
 
 if (Test-Path $StageRoot) {
@@ -326,5 +346,7 @@ Write-Host "Wrote $ZipPath"
 
 Invoke-ReleasePython @(
     (Join-Path $FrameworkRoot 'tools/ci/audit_playtest_diagnostics_package.py'),
-    $ZipPath, '--game-id', 'SCUS-94907', '--diagnostics-id', 'jerseydevil.diagnostics'
+    $ZipPath, '--game-id', 'SCUS-94907', '--diagnostics-id', 'jerseydevil.diagnostics',
+    '--mode', $PackageMode
 )
+Write-Host "Packaged $ZipPath ($PackageMode)"
