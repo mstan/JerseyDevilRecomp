@@ -1,4 +1,4 @@
-Jersey Devil Recompiled v0.2.0
+Jersey Devil Recompiled @VERSION@
 
 Open the launcher and select your legally owned Jersey Devil USA disc (SCUS-94907).
 This release includes native code for the five secondary executables and all

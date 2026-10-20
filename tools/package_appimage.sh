@@ -371,7 +371,9 @@ psx_add_overlay_toolchain --stage "$payload" \
                           --platform linux
 cp "$player_toml" "$payload/game.toml"
 cp "$root/packaging/release/input.ini"      "$payload/input.ini"
-cp "$root/packaging/release/START_HERE.txt" "$payload/START_HERE.txt"
+# START_HERE.txt carries @VERSION@; stamp it so the shipped header is never stale.
+sed "s|@VERSION@|$version|g" "$root/packaging/release/START_HERE.txt" > "$payload/START_HERE.txt"
+! grep -q '@VERSION@' "$payload/START_HERE.txt" || die "START_HERE.txt still has an unstamped @VERSION@"
 cp "$root/LICENSE" "$root/README.md" "$payload/"
 mkdir -p "$payload/docs"
 cp "$root/docs/AOT_OVERLAYS.md" "$payload/docs/"
