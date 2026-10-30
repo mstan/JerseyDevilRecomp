@@ -78,7 +78,7 @@ in the launcher.
 ## What works right now?
 
 The Mods page offers widescreen: Adaptive (fits your window) or a fixed 16:9.
-Higher internal resolution is in the launcher's video settings.
+Internal Resolution is enabled at 4x in Mods, with choices from 1x through 32x.
 
 Frame interpolation from earlier previews has been withdrawn because it garbled
 the picture. It can no longer be enabled, including from older saved settings.
