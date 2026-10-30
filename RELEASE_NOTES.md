@@ -1,4 +1,12 @@
-# v0.3.2
+# Jersey Devil Recompiled release notes
+
+## v0.3.3 — shared optimization release
+
+Fresh settings enable Internal Resolution at 4x. The Mods selector offers 1x through 32x; saved choices are preserved, and GPU texture and memory limits still apply. Disabling the mod selects native resolution.
+
+This build includes the combined qualified engine optimizations and uses the shared release pipeline with selective runtime PGO. CD Speed and Fast Loading packages are excluded. Existing memory cards remain supported.
+
+Automated gameplay validation for this release batch is limited to Ape Escape and Tomba 2. The other titles use build and package checks followed by owner visual approval; no per-title performance gain is claimed.
 
 Frame interpolation is withdrawn because it garbled the picture and could freeze the game. It can no longer be enabled, including from older saved settings or leftover mod copies. Widescreen now keeps the HUD in the screen corners at its original size. Playtest Diagnostics is off by default; enable it in Mods before reproducing a problem you want to report.
 
