@@ -30,7 +30,10 @@ set(PSXRECOMP_BIOS_STEMS "OpenBIOS" CACHE STRING
 include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 
 psxrecomp_add_game_runtime(psx-runtime
-    EXCLUDE_BUILTIN_MODS psx.enhancement.hd-textures
+    EXCLUDE_BUILTIN_MODS
+        psx.enhancement.hd-textures
+        psx.enhancement.cd-speed
+        psx.enhancement.fast-loading
     # ENABLE_NETPLAY_IF_PRESENT
     # NETPLAY_LOBBY_URL ws://netplay.retcomm.net:8765
     ENABLE_SETUP_WIZARD
